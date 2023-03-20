@@ -12,6 +12,8 @@
 * Date:
 *	16/08/2021
 ******************************************************************/
+//alu control
+
 module ALU_Control
 (
 	input funct7_i, 
@@ -23,14 +25,17 @@ module ALU_Control
 
 );
 
-localparam R_Type_ADD      = 7'b0_000_000;
-localparam I_Type_ADDI		= 7'bx_001_000;
-localparam R_Type_SUB		= 7'b1_010_000;
-localparam I_Type_ORI		= 7'bx_011_110;
-localparam I_Type_SLLI		= 7'b0_100_001;
-localparam I_Type_SRLI		= 7'b0_101_101;
-
-
+//1 hora 6
+//modificar 
+localparam R_Type_ADD = 7'b0_000_000;//   func7_aLUop_funct3
+localparam I_Type_ADDI= 7'bx_001_000; //aluop tiene que ser congruente aqui y en modulo de control, en caso de tener problema ver video en 1 hora 10
+localparam R_Type_SUB = 7'b1_010_000;//revisar fucn7
+localparam I_Type_ORI= 7'bx_011_110;
+localparam I_Type_SLLI= 7'b0_100_001;
+localparam I_Type_SRLI= 7'b0_101_101;
+//para func, addi puede tomar cualquier valor, por eso se pone una x
+//el siguiente alu op sera un 2 luego 3 y asi sucesivamente
+//para las intrucciones i type, el func7 sera x, no esta definido
 reg [3:0] alu_control_values;
 wire [6:0] selector;
 
@@ -38,15 +43,16 @@ assign selector = {funct7_i, ALU_Op_i, funct3_i};
 
 always@(selector)begin
 	casex(selector)
-
-		R_Type_ADD:   alu_control_values   = 4'b0000;
-		I_Type_ADDI:  alu_control_values   = 4'b0000;
-		R_Type_SUB:   alu_control_values   = 4'b0001;
-		I_Type_ORI:   alu_control_values   = 4'b0010;
-		I_Type_SLLI:   alu_control_values   = 4'b0011;
-		I_Type_SRLI:   alu_control_values   = 4'b0100;
-		
-	
+	//
+	R_Type_ADD: alu_control_values= 4'b0000;
+	I_Type_ADDI: alu_control_values= 4'b0000;
+	R_Type_SUB: alu_control_values= 4'b0001;
+	I_Type_ORI: alu_control_values= 4'b0010;
+	I_Type_SLLI: alu_control_values= 4'b0011;
+	I_Type_SRLI: alu_control_values= 4'b0100;
+	//
+	//duda en 1hora 19, que valores pongo arriba 
+	//esos valores deben ser congrunetes, en este caso son iguales porque las dos instrucciones realizan una suma
 
 		default: alu_control_values = 4'b00_00;
 	endcase
