@@ -1,3 +1,6 @@
+
+
+
 /******************************************************************
 * Description
 *	This is the control unit for the ALU. It receves a signal called 
@@ -33,6 +36,7 @@ localparam R_Type_SUB = 7'b1_010_000;//revisar fucn7
 localparam I_Type_ORI= 7'bx_011_110;
 localparam I_Type_SLLI= 7'b0_100_001;
 localparam I_Type_SRLI= 7'b0_101_101;
+localparam U_Type_LUI= 7'bx_110_xxx;
 //para func, addi puede tomar cualquier valor, por eso se pone una x
 //el siguiente alu op sera un 2 luego 3 y asi sucesivamente
 //para las intrucciones i type, el func7 sera x, no esta definido
@@ -45,12 +49,14 @@ always@(selector)begin
 	casex(selector)
 	//
 	R_Type_ADD: alu_control_values= 4'b0000;
-	I_Type_ADDI: alu_control_values= 4'b0000;
+	
 	R_Type_SUB: alu_control_values= 4'b0001;
 	I_Type_ORI: alu_control_values= 4'b0010;
 	I_Type_SLLI: alu_control_values= 4'b0011;
 	I_Type_SRLI: alu_control_values= 4'b0100;
-	//
+	U_Type_LUI:  alu_control_values= 4'b0101;
+		I_Type_ADDI: alu_control_values= 4'b0111;
+	
 	//duda en 1hora 19, que valores pongo arriba 
 	//esos valores deben ser congrunetes, en este caso son iguales porque las dos instrucciones realizan una suma
 
